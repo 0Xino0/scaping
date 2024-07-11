@@ -1,4 +1,5 @@
 import requests
+import json
 from bs4 import BeautifulSoup
 from config.baseScraper import BaseScraper
 
@@ -43,4 +44,27 @@ class DatasetScraper(BaseScraper):
             coins_list.append(coins)
      
         return coins_list
+    
+    def scrape_stocktwitts(self, url):
+        headers = {
+            "accept": "application/json",
+            "accept-language": "en-US,en;q=0.9,fa;q=0.8",
+            "origin": "https://stocktwits.com",
+            "priority": "u=1, i",
+            "referer": "https://stocktwits.com/",
+            "sec-ch-ua": "^\^'Not/A)Brand^\^';v=^\^'8^\^', ^\^'Chromium^\^';v=^\^'126^\^', ^\^'Google Chrome^\^';v=^\^'126^\^'^",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "^\^'Windows^\^'^",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors" ,
+            "sec-fetch-site": "same-site",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+        }
+
+        response = requests.get(url, headers=headers)
+
+        json_file = json.loads(response.content)
+        return json_file
         
+        
+
