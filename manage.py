@@ -1,14 +1,25 @@
 from bs4 import BeautifulSoup
 import requests
+import json
 from config.baseScraper import BaseScraper
 from config.DatasetScraper import DatasetScraper
 
 
 def main():
+    url_xml = "https://sahmeto.com/crypto-sitemap.xml"
     url = "https://catalog.data.gov/dataset"
     scraper = DatasetScraper()
     collection = scraper.scraper(url)
-    
+
+    coins_list = scraper.scrape_xml(url_xml)
+    coins_new_list = [{"name": coin} for coin in coins_list]
+    coins_json = json.dumps(coins_new_list, indent=4)
+
+    with open('coins.json','w',encoding='utf-8') as file :
+        file.write(coins_json)
+
+    print()
+    # print(type(coins_list))
     #create html content and add collection to html file
     html_content = """
     <!DOCTYPE html>
