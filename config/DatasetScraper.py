@@ -31,6 +31,16 @@ class DatasetScraper(BaseScraper):
                 collection["dataset"] = [name]
                 collection["view"] = [view]
         return collection   
-     
+    
+    def scrape_xml(self, url):
 
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text,'lxml')
+        locs_tag = soup.find_all('loc')
+        coins_list = list()
+        for loc in locs_tag:
+            coins = loc.text.split('/')[-1]
+            coins_list.append(coins)
+     
+        return coins_list
         
